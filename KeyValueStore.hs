@@ -21,7 +21,8 @@ import Data.List (sort)
 twoWithSameKeyHelper :: (Ord a, Ord b, Eq a) => [(a,b)] -> [(a,b)] -> Maybe (a, b, b, [(a,b)])
 -- Complete recursive case for Problem 3, part (a).
 twoWithSameKeyHelper ((k1,v1):(k2,v2):kvs) keep  = if k1 == k2 then Just(k1, v1, v2, keep++kvs) else twoWithSameKeyHelper kvs (keep++[(k1,v1),(k2,v2)])
-twoWithSameKeyHelper []                    keep  = Nothing
+twoWithSameKeyHelper []                 keep  = Nothing
+
 
 --twoWithSameKey, which will behave exactly like twoWithSameKeyHelper 
 --but will not require an initial accumulator variable to be specified, and does not assume 

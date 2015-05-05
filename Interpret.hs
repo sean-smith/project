@@ -14,31 +14,32 @@ type Algorithm = KeyValueStore -> Maybe KeyValueStore
 
 eval :: [(String, KeyValueStore)] -> Exp -> Algorithm
 -- Complete for Problem 3, part (d).
+-- NOT SURE IF IT SHOULD BE ZERO
 -- combine n ops kvs 
 eval env (Min e) kvs = 
   let a = (eval env e kvs)
   in if a == Nothing then Nothing else 
-    Just (suffix (combine 1 (\x y -> min x y) (justValue a)))
+    Just (suffix (combine 0 (\x y -> min x y) (justValue a)))
 eval env (Max e) kvs = 
   let a = (eval env e kvs)
   in if a == Nothing then Nothing else 
-    Just (suffix (combine 1 (\x y -> max x y) (justValue a)))
+    Just (suffix (combine 0 (\x y -> max x y) (justValue a)))
 eval env (Sum e) kvs = 
   let a = (eval env e kvs)
   in if a == Nothing then Nothing else 
-    Just (suffix (combine 1 (\x y -> x + y) (justValue a)))
+    Just (suffix (combine 0 (\x y -> x + y) (justValue a)))
 eval env (Product e) kvs = 
   let a = (eval env e kvs)
   in if a == Nothing then Nothing else 
-    Just (suffix (combine 1 (\x y -> x * y) (justValue a)))
+    Just (suffix (combine 0 (\x y -> x * y) (justValue a)))
 eval env (Union e) kvs =
   let a = (eval env e kvs)
   in if a == Nothing then Nothing else 
-    Just (suffix (combine 1 (\x y -> (\/) x y) (justValue a)))  
+    Just (suffix (combine 0 (\x y -> (\/) x y) (justValue a)))  
 eval env (Intersection e) kvs = 
   let a = (eval env e kvs)
   in if a == Nothing then Nothing else 
-    Just (suffix (combine 1 (\x y -> (/\) x y) (justValue a)))
+    Just (suffix (combine 0 (\x y -> (/\) x y) (justValue a)))
 eval env DATA kvs = Just(kvs)
 eval env (Variable x) kvs = 
   let l = filter (\v -> (fst v) == x) env 
