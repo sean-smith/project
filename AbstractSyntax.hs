@@ -41,8 +41,6 @@ instance Ord Value where
   Number a < Number b = a < b
   Number a <= Number b = a <= b
 
-
-
 (\/) :: Value -> Value -> Value
 (\/) (Set a) (Set b) = Set (a `union` b)
 (\/) _ _ = Error
@@ -91,6 +89,7 @@ vars s = fold [] (\x -> [x]) concat s
 -- found in the abstract syntax tree given to it.
 operations :: Stmt -> Integer
 --                  b     v          f        e
+-- NOT HAPPY WITH THIS MAKE THIS WORK
 operations s = fold 0 (\x -> 0) (\x -> sum ([1]++x)) s
 
 -- eof

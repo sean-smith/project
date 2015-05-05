@@ -10,6 +10,10 @@ isin x [] = False
 justValue :: Maybe a -> a
 justValue (Just a) = a
 
+isJust         :: Maybe a -> Bool
+isJust Nothing = False
+isJust _       = True
+
 class Typeable a where
   typeCheck :: [(String, Type)] -> a -> Maybe Type
 
@@ -48,15 +52,15 @@ instance Typeable Exp where
     in if length l == 0 then Nothing else
       Just(snd (l!!0)) 
 
+
 instance Typeable Stmt where 
   typeCheck env (Return x) =
     if x `isin` env then Just(TyVoid) else Nothing
   typeCheck env (Assign x e s) =
     let t1 = typeCheck env e
     in if t1 == Nothing then Nothing else
-      let t2 = typeCheck (env ++ [(x, justValue t1)]) s
-      in if justValue t2 /= TyVoid then Nothing else
-        Just (TyVoid)
+      let t2 = typeCheck (env ++ [(x, (justValue t1))]) s
+      in t2
 
 
 
@@ -76,13 +80,7 @@ tokenizeParseTypeCheck :: String -> Maybe Type
 -- tokenizeParse :: String -> Maybe a
 -- typeCheck :: [(String, Type)] -> a -> Maybe Type
 
--- String
--- Maybe a
--- liftMaybe
--- ([()], a)
--- Maybe Type
--- joinMaybe
 
-tokenizeParseTypeCheck s = ((typeCheck :: [(String, Type)] -> Stmt -> Maybe Type) [] (justValue(tokenizeParse s)))
+tokenizeParseTypeCheck s = joinMaybe( liftMaybe ((typeCheck:: [(String, Type)] -> Stmt -> Maybe Type) []) (tokenizeParse s))
   
 -- eof

@@ -4,14 +4,14 @@ import AbstractSyntax
 import Parse
 import TypeCheck
 import KeyValueStore
---import Interpret
---import Validate
---import Compile
+import Interpret
+import Validate
+import Compile
 
 allTests = [
   show (failed parseTests),
-  show (failed typeCheckTests) -- ,
-  --show (failed interpretTests)
+  show (failed typeCheckTests),
+  show (failed interpretTests)
   ]
 
 -- To get the failures for an individual test, query that
@@ -68,28 +68,28 @@ typeCheckTests = [
   ((typeCheck [] :: Exp -> Maybe Type) (Product (Sum (Max (Product (Sum (Product (Product DATA))))))), Just TyNumber)
   ]
 
---interpretTests :: [(Maybe KeyValueStore, Maybe KeyValueStore)]
---interpretTests = [
---  (typeCheckInterpret (Assign "x" (Min (Max DATA)) (Assign "y" (Intersection (Intersection (MakeSet (Variable "x")))) (Return "y"))) testKVS, Just [([],Set [5]),([],Set [5])]),
---  (typeCheckInterpret (Assign "x" (Min (Max DATA)) (Assign "y" (Union (Union (MakeSet (Variable "x")))) (Return "y"))) testKVS, Just [([],Set [5]),([],Set [5])]),
---  (typeCheckInterpret (Assign "a" (Min (Product DATA)) (Assign "b" (Union (Union (MakeSet (Variable "a")))) (Return "b"))) testKVS, Just [([],Set [-30]),([],Set [-30])]),
---  (typeCheckInterpret (Assign "a" (Max (Sum DATA)) (Assign "b" (Intersection (Intersection (MakeSet (Variable "a")))) (Return "b"))) testKVS, Just [([],Set [9]),([],Set [9])]),
---  (typeCheckInterpret (Assign "a" (Max (Sum DATA)) (Assign "b" (Union (Union (MakeSet (Variable "a")))) (Return "b"))) testKVS, Just [([],Set [9]),([],Set [9])]),
---  (typeCheckInterpret (Assign "a" (Min (Sum DATA)) (Assign "b" (Intersection (Intersection (MakeSet (Variable "a")))) (Return "b"))) testKVS, Just [([],Set [9]),([],Set [9])]),
---  (typeCheckInterpret (Assign "x" (Min (Product DATA)) (Assign "y" (Intersection (Intersection (MakeSet (Variable "x")))) (Return "y"))) testKVS, Just [([],Set [-30]),([],Set [-30])]),
---  (typeCheckInterpret (Assign "x" (Min (Product DATA)) (Assign "y" (Union (Union (MakeSet (Variable "x")))) (Return "y"))) testKVS, Just [([],Set [-30]),([],Set [-30])]),
---  (typeCheckInterpret (Assign "x" (Sum (Product DATA)) (Assign "y" (Intersection (Intersection (MakeSet (Variable "x")))) (Return "y"))) testKVS, Just [([],Set [-30]),([],Set [-30])]),
---  (typeCheckInterpret (Assign "x" (Sum (Product DATA)) (Assign "y" (Union (Union (MakeSet (Variable "x")))) (Return "y"))) testKVS, Just [([],Set [-30]),([],Set [-30])]),
---  (typeCheckInterpret (Assign "x" (Product (Product DATA)) (Assign "y" (Intersection (Intersection (MakeSet (Variable "x")))) (Return "y"))) testKVS, Just [([],Set [-30]),([],Set [-30])]),
---  (typeCheckInterpret (Assign "x" (Product (Product DATA)) (Assign "y" (Union (Union (MakeSet (Variable "x")))) (Return "y"))) testKVS, Just [([],Set [-30]),([],Set [-30])]),
---  (typeCheckInterpret (Assign "u" (Min (Min DATA)) (Assign "v" (Min (Min (Variable "u"))) (Return "v"))) testKVS, Just [([],Number (-1)),([],Number (-1))]),
---  (typeCheckInterpret (Assign "u" (Product (Min DATA)) (Assign "v" (Product (Min (Variable "u"))) (Return "v"))) testKVS, Just [([],Number (-1)),([],Number (-1))]),
---  (typeCheckInterpret (Assign "x" (Sum (Sum DATA)) (Assign "y" (Sum (Sum (Variable "x"))) (Return "y"))) testKVS, Just [([],Number 54),([],Number 54)]),
---  (typeCheckInterpret (Assign "x" (Product (Min DATA)) (Assign "y" (Min (Min (Variable "x"))) (Return "y"))) testKVS, Just [([],Number (-1)),([],Number (-1))]),
---  (typeCheckInterpret (Assign "x" (Product (Max DATA)) (Assign "y" (Max (Max (Variable "x"))) (Return "y"))) testKVS, Just [([],Number 5),([],Number 5)]),
---  (typeCheckInterpret (Assign "x" (Product (Sum DATA)) (Assign "y" (Sum (Sum (Variable "x"))) (Return "y"))) testKVS, Just [([],Number 54),([],Number 54)])
---  ]
+interpretTests :: [(Maybe KeyValueStore, Maybe KeyValueStore)]
+interpretTests = [
+  (typeCheckInterpret (Assign "x" (Min (Max DATA)) (Assign "y" (Intersection (Intersection (MakeSet (Variable "x")))) (Return "y"))) testKVS, Just [([],Set [5]),([],Set [5])]),
+  (typeCheckInterpret (Assign "x" (Min (Max DATA)) (Assign "y" (Union (Union (MakeSet (Variable "x")))) (Return "y"))) testKVS, Just [([],Set [5]),([],Set [5])]),
+  (typeCheckInterpret (Assign "a" (Min (Product DATA)) (Assign "b" (Union (Union (MakeSet (Variable "a")))) (Return "b"))) testKVS, Just [([],Set [-30]),([],Set [-30])]),
+  (typeCheckInterpret (Assign "a" (Max (Sum DATA)) (Assign "b" (Intersection (Intersection (MakeSet (Variable "a")))) (Return "b"))) testKVS, Just [([],Set [9]),([],Set [9])]),
+  (typeCheckInterpret (Assign "a" (Max (Sum DATA)) (Assign "b" (Union (Union (MakeSet (Variable "a")))) (Return "b"))) testKVS, Just [([],Set [9]),([],Set [9])]),
+  (typeCheckInterpret (Assign "a" (Min (Sum DATA)) (Assign "b" (Intersection (Intersection (MakeSet (Variable "a")))) (Return "b"))) testKVS, Just [([],Set [9]),([],Set [9])]),
+  (typeCheckInterpret (Assign "x" (Min (Product DATA)) (Assign "y" (Intersection (Intersection (MakeSet (Variable "x")))) (Return "y"))) testKVS, Just [([],Set [-30]),([],Set [-30])]),
+  (typeCheckInterpret (Assign "x" (Min (Product DATA)) (Assign "y" (Union (Union (MakeSet (Variable "x")))) (Return "y"))) testKVS, Just [([],Set [-30]),([],Set [-30])]),
+  (typeCheckInterpret (Assign "x" (Sum (Product DATA)) (Assign "y" (Intersection (Intersection (MakeSet (Variable "x")))) (Return "y"))) testKVS, Just [([],Set [-30]),([],Set [-30])]),
+  (typeCheckInterpret (Assign "x" (Sum (Product DATA)) (Assign "y" (Union (Union (MakeSet (Variable "x")))) (Return "y"))) testKVS, Just [([],Set [-30]),([],Set [-30])]),
+  (typeCheckInterpret (Assign "x" (Product (Product DATA)) (Assign "y" (Intersection (Intersection (MakeSet (Variable "x")))) (Return "y"))) testKVS, Just [([],Set [-30]),([],Set [-30])]),
+  (typeCheckInterpret (Assign "x" (Product (Product DATA)) (Assign "y" (Union (Union (MakeSet (Variable "x")))) (Return "y"))) testKVS, Just [([],Set [-30]),([],Set [-30])]),
+  (typeCheckInterpret (Assign "u" (Min (Min DATA)) (Assign "v" (Min (Min (Variable "u"))) (Return "v"))) testKVS, Just [([],Number (-1)),([],Number (-1))]),
+  (typeCheckInterpret (Assign "u" (Product (Min DATA)) (Assign "v" (Product (Min (Variable "u"))) (Return "v"))) testKVS, Just [([],Number (-1)),([],Number (-1))]),
+  (typeCheckInterpret (Assign "x" (Sum (Sum DATA)) (Assign "y" (Sum (Sum (Variable "x"))) (Return "y"))) testKVS, Just [([],Number 54),([],Number 54)]),
+  (typeCheckInterpret (Assign "x" (Product (Min DATA)) (Assign "y" (Min (Min (Variable "x"))) (Return "y"))) testKVS, Just [([],Number (-1)),([],Number (-1))]),
+  (typeCheckInterpret (Assign "x" (Product (Max DATA)) (Assign "y" (Max (Max (Variable "x"))) (Return "y"))) testKVS, Just [([],Number 5),([],Number 5)]),
+  (typeCheckInterpret (Assign "x" (Product (Sum DATA)) (Assign "y" (Sum (Sum (Variable "x"))) (Return "y"))) testKVS, Just [([],Number 54),([],Number 54)])
+  ]
 
---testKVS = (dats [["T"], ["C", "D"], ["X", "Y", "Z"], ["a", "b"]] [-1,2,3,5]) !! 3
+testKVS = (dats [["T"], ["C", "D"], ["X", "Y", "Z"], ["a", "b"]] [-1,2,3,5]) !! 3
 
-----eof
+--eof

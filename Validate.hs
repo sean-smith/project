@@ -17,12 +17,27 @@ class Exhaustive a where
   exhaustive :: Integer -> [a]
 
 instance Exhaustive Exp where
-  -- Complete for Problem 4, part (a).
+-- Complete for Problem 4, part (a).
+-- for when n == 1
+-- v1 = [DATA, (Variable "x"), (Variable "y")]
+-- for when n > 1
+-- v2 = [Max h, Min h, Sum h, Product h, Union h, Intersection h, MakeSet h]
+  exhaustive n = if n == 1 then [DATA, (Variable "x"), (Variable "y")] else [Max h |  h  <- (exhaustive ((n-1)))]++[Min h |  h  <- (exhaustive (n-1))]++[Sum h |  h  <- (exhaustive (n-1))]++[Product h |  h  <- (exhaustive (n-1))]++[Union h |  h  <- (exhaustive (n-1))]++[Intersection h |  h  <- (exhaustive (n-1))]++[MakeSet h |  h  <- (exhaustive (n-1))]
 
 instance Exhaustive Stmt where
   -- Complete for Problem 4, part (a).
+  exhaustive n = if n == 1 then [(Return "x"), (Return "y")] else [Assign "x" e s |  s  <- ((exhaustive (n-1))::[Stmt]), e  <- ((exhaustive (n-1))::[Exp])]++[Assign "y" e s |  s  <- ((exhaustive (n-1))::[Stmt]), e  <- ((exhaustive (n-1))::[Exp])]
+
+
+--f:: Stmt -> KeyValueStore -> Maybe KeyValueStore
+--g:: Stmt -> KeyValueStore -> Maybe KeyValueStore
+
 
 validate :: Integer -> (Stmt -> Algorithm) -> (Stmt -> Algorithm) -> [KeyValueStore] -> [(Stmt, KeyValueStore)]
 -- Complete for Problem 4, part (b).
+-- type Algorithm = KeyValueStore -> Maybe KeyValueStore
+-- n f g kvs
+validate n f g kvs = [ (x,v) | x <- (exhaustive n), v <- kvs,  (f x v) /= (g x v)    ]
+
 
 --eof
