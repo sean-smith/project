@@ -54,10 +54,11 @@ eval env (MakeSet e) kvs =
 
 exec :: [(String, KeyValueStore)] -> Stmt -> Algorithm
 -- I DONT LIKE THIS
+-- Need to clarify the inference rules
 exec env (Return x) kvs = 
-  let a = (eval env (Variable x) kvs)
-  in if a == Nothing then Nothing else 
-    a
+  let a = [k | (s,k) <- env, s == x]
+  in if length a == 0 then Nothing else 
+    Just(a!!0)
 exec env (Assign x e s) kvs = 
   let a = (eval env e kvs)
   in if a == Nothing then Nothing else 
