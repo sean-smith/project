@@ -48,17 +48,17 @@ eval env (Variable x) kvs =
 eval env (MakeSet e) kvs = 
   let a = (eval env e kvs)
   in if a == Nothing then Nothing else 
-    Just([   (y,  (makeSet x))    |   (y, x)   <- (justValue a) ])
+    Just([    (y,(makeSet x))    |   (y, x)   <- (justValue a) ])
 
 
 
 exec :: [(String, KeyValueStore)] -> Stmt -> Algorithm
 -- I DONT LIKE THIS
 -- Need to clarify the inference rules
-exec env (Return x) kvs = 
-  let a = [k | (s,k) <- env, s == x]
-  in if length a == 0 then Nothing else 
-    Just(a!!0)
+exec env (Return x) kvs = if (lookup x env) == Nothing then Nothing else (lookup x env)
+--  let a = [k | (s,k) <- env, s == x]
+--  in if length a == 0 then Nothing else 
+--    Just(a!!0)
 exec env (Assign x e s) kvs = 
   let a = (eval env e kvs)
   in if a == Nothing then Nothing else 
