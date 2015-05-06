@@ -67,12 +67,12 @@ instance Typeable Stmt where
 liftMaybe :: (a -> b) -> (Maybe a -> Maybe b)
 -- Complete for Problem 2, part (c).
 liftMaybe f (Just x) = Just (f x)
-liftMaybe f Nothing = Nothing
+liftMaybe _ Nothing = Nothing
 
 
 joinMaybe :: Maybe (Maybe a) -> Maybe a
 -- Complete for Problem 2, part (c).
-joinMaybe (Just (Just x)) = Just x
+joinMaybe (Just  x) =  x
 joinMaybe _  = Nothing
 
 tokenizeParseTypeCheck :: String -> Maybe Type

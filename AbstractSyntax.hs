@@ -35,11 +35,19 @@ data Value =
 instance Num Value where
   fromInteger n = Number n
   Number a + Number b = Number(a + b)
+  _ + _ = Error
   Number a * Number b = Number(a * b)
+  _ * _ = Error
   
 instance Ord Value where
   Number a < Number b = a < b
+  Number a < _ = False
+  _ < Number a = True
+  _  < _ = False
   Number a <= Number b = a <= b
+  _ <= Number b = True
+  Number a <= _ = False
+  _ <= _ = False
 
 (\/) :: Value -> Value -> Value
 (\/) (Set a) (Set b) = Set (a `union` b)

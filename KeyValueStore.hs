@@ -21,7 +21,7 @@ import Data.List (sort)
 twoWithSameKeyHelper :: (Ord a, Ord b, Eq a) => [(a,b)] -> [(a,b)] -> Maybe (a, b, b, [(a,b)])
 -- Complete recursive case for Problem 3, part (a).
 twoWithSameKeyHelper ((k1,v1):(k2,v2):kvs) keep  = if k1 == k2 then Just(k1, v1, v2, keep++kvs) else twoWithSameKeyHelper kvs (keep++[(k1,v1),(k2,v2)])
-twoWithSameKeyHelper []                 keep  = Nothing
+twoWithSameKeyHelper _  _  = Nothing
 
 
 --twoWithSameKey, which will behave exactly like twoWithSameKeyHelper 
@@ -35,7 +35,7 @@ twoWithSameKey kvs = twoWithSameKeyHelper (sort kvs) []
 
 suffix :: [([a],b)] -> [([a],b)]
 -- Complete for Problem 3, part (c).
-suffix kvs = [((tail m), x) | (m, x) <- kvs, length m > 1]
+suffix kvs = [(ms, x) | (m:ms, x) <- kvs]
 
 -- A function for simulating the application of an operation to
 -- a key-value store.
