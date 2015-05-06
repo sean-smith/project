@@ -20,7 +20,7 @@ import Data.List (sort)
 
 twoWithSameKeyHelper :: (Ord a, Ord b, Eq a) => [(a,b)] -> [(a,b)] -> Maybe (a, b, b, [(a,b)])
 -- Complete recursive case for Problem 3, part (a).
-twoWithSameKeyHelper ((k1,v1):(k2,v2):kvs) keep  = if k1 == k2 then Just(k1, v1, v2, keep++kvs) else twoWithSameKeyHelper kvs (keep++[(k1,v1),(k2,v2)])
+twoWithSameKeyHelper ((k1,v1):(k2,v2):kvs) keep  = if k1 == k2 then Just(k1, v1, v2, keep++kvs) else (twoWithSameKeyHelper kvs (keep++[(k1,v1),(k2,v2)]))
 twoWithSameKeyHelper _  _  = Nothing
 
 
@@ -29,8 +29,6 @@ twoWithSameKeyHelper _  _  = Nothing
 --that the input list is `sorted.`
 twoWithSameKey :: (Ord a, Ord b, Eq a) => [(a,b)] -> Maybe (a, b, b, [(a,b)])
 -- Complete for Problem 3, part (b).
--- (\x -> fst x)
--- NOT SURE HOW TO SORT WITH A KEY SO IT PROBABLY WON'T WORK
 twoWithSameKey kvs = twoWithSameKeyHelper (sort kvs) [] 
 
 suffix :: [([a],b)] -> [([a],b)]

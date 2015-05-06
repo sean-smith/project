@@ -14,62 +14,21 @@ type Algorithm = KeyValueStore -> Maybe KeyValueStore
 
 eval :: [(String, KeyValueStore)] -> Exp -> Algorithm
 -- Complete for Problem 3, part (d).
--- NOT SURE IF IT SHOULD BE ZERO
 -- combine n ops kvs 
 
 eval env (Min e) = liftMaybe suffix . liftMaybe (combine 1 min) . (eval env e)
-eval env (Max e) = liftMaybe suffix . liftMaybe (combine 1 min) . (eval env e)
-eval env (Sum e) = liftMaybe suffix . liftMaybe (combine 1 min) . (eval env e)
-eval env (Product e) = liftMaybe suffix . liftMaybe (combine 1 min) . (eval env e)
-eval env (Union e) = liftMaybe suffix . liftMaybe (combine 1 min) . (eval env e)
-eval env (Intersection e) = liftMaybe suffix . liftMaybe (combine 1 min) . (eval env e)
-
-
-
-
-
---  let a = (eval env e kvs)
---  in if a == Nothing then Nothing else 
---    (liftMaybe suffix (liftMaybe (combine 1 min) a))
---eval env (Max e) kvs = 
---  let a = (eval env e kvs)
---  in if a == Nothing then Nothing else 
---    (liftMaybe suffix (liftMaybe (combine 1 max) a))
-
---eval env (Sum e) kvs = 
---  let a = (eval env e kvs)
---  in if a == Nothing then Nothing else 
---    (liftMaybe suffix (liftMaybe (combine 1 (+)) a))
---eval env (Product e) kvs = 
---  let a = (eval env e kvs)
---  in if a == Nothing then Nothing else 
---    (liftMaybe suffix (liftMaybe (combine 1 (*)) a))
---eval env (Intersection e) kvs = 
---  let a = (eval env e kvs)
---  in if a == Nothing then Nothing else 
---    (liftMaybe suffix (liftMaybe (combine 1 (/\)) a))
---eval env (Union e) kvs = 
---  let a = (eval env e kvs)
---  in if a == Nothing then Nothing else 
---    (liftMaybe suffix (liftMaybe (combine 1 (\/)) a))
---eval env DATA kvs = Just(kvs)
---eval env (Variable x) kvs = 
---  let a = [snd y | y <- env, fst y == x] 
---  in if length a > 0 then Just(a!!0) else Nothing
-
---eval env (MakeSet e) kvs = 
---  let a = (eval env e kvs)
---  in if a == Nothing then Nothing else 
---    Just([    (y,makeSet x)    |   (y, x)   <- (justValue a) ])
-
+eval env (Max e) = liftMaybe suffix . liftMaybe (combine 1 max) . (eval env e)
+eval env (Sum e) = liftMaybe suffix . liftMaybe (combine 1 (+)) . (eval env e)
+eval env (Product e) = liftMaybe suffix . liftMaybe (combine 1 (*)) . (eval env e)
+eval env (Union e) = liftMaybe suffix . liftMaybe (combine 1 (\/)) . (eval env e)
+eval env (Intersection e) = liftMaybe suffix . liftMaybe (combine 1 (/\)) . (eval env e)
+eval env DATA = (\s -> Just(s)) 
+eval env (Variable x) = (\s -> lookup x env)
+eval env (MakeSet e) = liftMaybe (\s -> [ (x, makeSet y)  | (x, y) <- s]) . (eval env e)
 
 
 exec :: [(String, KeyValueStore)] -> Stmt -> Algorithm
--- I DONT LIKE THIS
--- Need to clarify the inference rules
-exec env (Return x) kvs = 
-  let a = [snd y | y <- env, fst y == x] 
-  in if length a > 0 then Just(a!!0) else Nothing
+exec env (Return x) = (\s -> lookup x env)
 
 exec env (Assign x e s) kvs = 
   let a = (eval env e) kvs
