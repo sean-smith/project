@@ -10,9 +10,6 @@ isin x [] = False
 justValue :: Maybe a -> a
 justValue (Just a) = a
 
-isJust         :: Maybe a -> Bool
-isJust Nothing = False
-isJust _       = True
 
 class Typeable a where
   typeCheck :: [(String, Type)] -> a -> Maybe Type

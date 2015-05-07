@@ -5,10 +5,10 @@ import Data.List (sort)
 -- A function for finding two elements in a key-value store
 -- that have the same key.
 --
---  * The first argument is the key-value store, assumed
+--  kvs* The first argument is the key-value store, assumed
 --    to already be sorted so pairs with the same key
 --    are contiguous.
---  * The second argument is an accumulator list that
+--  keep* The second argument is an accumulator list that
 --    will maintain k the list entries that have no
 --    partners with duplicate keys (thus, they must be kept
 --    in the key-value store).
@@ -20,7 +20,8 @@ import Data.List (sort)
 
 twoWithSameKeyHelper :: (Ord a, Ord b, Eq a) => [(a,b)] -> [(a,b)] -> Maybe (a, b, b, [(a,b)])
 -- Complete recursive case for Problem 3, part (a).
-twoWithSameKeyHelper ((k1,v1):(k2,v2):kvs) keep  = if k1 == k2 then Just(k1, v1, v2, keep++kvs) else (twoWithSameKeyHelper kvs (keep++[(k1,v1),(k2,v2)]))
+twoWithSameKeyHelper ((k1,v1):(k2,v2):kvs) keep  = if (k1 == k2) then Just(k1, v1, v2, keep++kvs) else twoWithSameKeyHelper ((k2,v2):kvs) (keep++[(k1,v1)])
+twoWithSameKeyHelper [] keep  = Nothing
 twoWithSameKeyHelper _  _  = Nothing
 
 

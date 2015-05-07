@@ -34,27 +34,27 @@ data Value =
 
 instance Num Value where
   fromInteger n = Number n
-  Number a + Number b = Number(a + b)
+  Number a + Number b = Number (a + b)
   _ + _ = Error
-  Number a * Number b = Number(a * b)
+  Number a * Number b = Number (a * b)
   _ * _ = Error
   
 instance Ord Value where
   Number a < Number b = a < b
-  Number a < _ = False
   _ < Number a = True
-  _  < _ = False
+  Number a < _ = False
+  _ < _ = False
   Number a <= Number b = a <= b
   _ <= Number b = True
-  Number a <= _ = False
+  Number b <= _ = True
   _ <= _ = False
 
 (\/) :: Value -> Value -> Value
-(\/) (Set a) (Set b) = Set (a `union` b)
+(\/) (Set a) (Set b) =  Set (union a b)
 (\/) _ _ = Error
 
 (/\) :: Value -> Value -> Value
-(/\) (Set a) (Set b) = Set (a `intersect` b)
+(/\) (Set a) (Set b) =  Set (intersect a b)
 (/\) _ _ = Error
 
 -- Type class Foldable for a fold function on data types.

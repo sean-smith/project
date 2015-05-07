@@ -13,9 +13,6 @@ type KeyValueStore = [([String], Value)]
 type Algorithm = KeyValueStore -> Maybe KeyValueStore
 
 eval :: [(String, KeyValueStore)] -> Exp -> Algorithm
--- Complete for Problem 3, part (d).
--- combine n ops kvs 
-
 eval env (Min e) = liftMaybe suffix . liftMaybe (combine 1 min) . (eval env e)
 eval env (Max e) = liftMaybe suffix . liftMaybe (combine 1 max) . (eval env e)
 eval env (Sum e) = liftMaybe suffix . liftMaybe (combine 1 (+)) . (eval env e)
@@ -28,12 +25,8 @@ eval env (MakeSet e) = liftMaybe (\s -> [ (x, makeSet y)  | (x, y) <- s]) . (eva
 
 
 exec :: [(String, KeyValueStore)] -> Stmt -> Algorithm
-exec env (Return x) = (\s -> lookup x env)
-
-exec env (Assign x e s) kvs = 
-  let a = (eval env e) kvs
-  in if a == Nothing then Nothing else 
-    exec (env++[(x, (justValue a))]) s kvs
+exec env (Return x) kvs = eval env (Variable x) kvs
+exec env (Assign x e s) kvs = let a = eval env e kvs in if a == Nothing then Nothing else exec (env++[(x, justValue a)]) s kvs
 
 
 
