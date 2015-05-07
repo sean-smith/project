@@ -41,9 +41,14 @@ simulate :: [Instruction] -> KeyValueStore ->  KeyValueStore
 simulate ((Reliable f)   :insts) kvs = simulate insts (combine 1 f kvs)
 simulate ((Unreliable f) :insts) kvs = simulate insts (combine 2 f kvs)
 simulate (DropKeySuffixes:insts) kvs = simulate insts (suffix kvs)
-simulate (MakeSets       :insts) kvs = [] -- Complete for Problem 5, part (a).
+simulate (MakeSets       :insts) kvs = simulate insts [(x, makeSet y)  | (x, y) <- kvs]
 
 compile :: Stmt -> KeyValueStore -> Maybe KeyValueStore
-compile _ _ = Nothing -- Complete for Problem 5, part (b).
+-- Complete for Problem 5, part (b).
+-- Compile should first type check the program, then should use rmvDeadCode
+-- to eliminate any dead code, and finally should compile the program and 
+-- apply the simulator to it to obtain a function on key-value stores 
+-- that can be compared to the interpreter.
+compile s kvs =  let t = typeCheck [] s in if justValue t /= TyVoid then Nothing else Just(simulate (compileStmt (rmvDeadCode s)) kvs)
 
 --eof
